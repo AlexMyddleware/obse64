@@ -14,7 +14,7 @@ Write-Host ""
 if ($AutoCopy) {
     if ($OblivionPath -eq "") {
         # Try to detect Steam installation
-        $steamPath = "C:\Program Files (x86)\Steam\steamapps\common\Oblivion"
+        $steamPath = "C:\Steam\steamapps\common\Oblivion Remastered\OblivionRemastered\Binaries\Win64"
         if (Test-Path $steamPath) {
             $OblivionPath = $steamPath
             Write-Host "Detected Oblivion Remastered at: $OblivionPath" -ForegroundColor Green
