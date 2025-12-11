@@ -162,7 +162,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/configuration.cmake)
 set_target_properties(
 	${PROJECT_NAME}
 	PROPERTIES
-		OUTPUT_NAME "${PROJECT_NAME}_${RUNTIME_VERSION_MAJOR}_${RUNTIME_VERSION_MINOR}_${RUNTIME_VERSION_PATCH}"
+		OUTPUT_NAME "Varla"
 )
 
 target_compile_definitions(
