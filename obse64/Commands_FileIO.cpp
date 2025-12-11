@@ -298,3 +298,136 @@ CommandInfo kCommandInfo_UnregisterLog =
 	3, kParams_UnregisterLog,
 	Cmd_UnregisterLog_Execute
 };
+
+// ===== VARLA MODULE IMPLEMENTATION =====
+// For Oblivion Remastered - Simple file I/O without register/unregister
+
+/* VarlaWriteToFile - Write a string to a file
+ * syntax: VarlaWriteToFile "filename" "content"
+ *
+ * Writes or appends content to a file in My Documents\My Games\Oblivion\
+ * Automatically creates the file if it doesn't exist
+ * Appends a newline after the content
+ */
+bool Cmd_VarlaWriteToFile_Execute(COMMAND_ARGS)
+{
+	char fileName[256];
+	char content[BUFSIZ];
+
+	if (ExtractArgs(EXTRACT_ARGS, &fileName, &content))
+	{
+		std::string logDir = GetLogDirectory();
+		if (logDir.empty())
+		{
+			Console_Print("VarlaWriteToFile: Failed to get log directory");
+			return true;
+		}
+
+		std::string fullPath = logDir + std::string(fileName);
+
+		// Open file in append mode
+		std::ofstream file(fullPath, std::ios::out | std::ios::app);
+		if (!file.is_open())
+		{
+			Console_Print("VarlaWriteToFile: Failed to open file: %s", fullPath.c_str());
+			return true;
+		}
+
+		// Write content with newline
+		file << content << std::endl;
+		file.close();
+
+		#if _DEBUG
+		Console_Print("VarlaWriteToFile: Wrote to '%s'", fileName);
+		#endif
+	}
+
+	return true;
+}
+
+/* VarlaReadFromFile - Read all lines from a file
+ * syntax: let array = VarlaReadFromFile "filename"
+ *
+ * Reads all lines from a file in My Documents\My Games\Oblivion\
+ * Returns an array that can be accessed with ar_Size and indexed with []
+ * Returns 0 if the file doesn't exist or can't be opened
+ */
+bool Cmd_VarlaReadFromFile_Execute(COMMAND_ARGS)
+{
+	char fileName[256];
+
+	if (ExtractArgs(EXTRACT_ARGS, &fileName))
+	{
+		std::string logDir = GetLogDirectory();
+		if (logDir.empty())
+		{
+			Console_Print("VarlaReadFromFile: Failed to get log directory");
+			*result = 0;
+			return true;
+		}
+
+		std::string fullPath = logDir + std::string(fileName);
+
+		// Try to open the file
+		std::ifstream file(fullPath);
+		if (!file.is_open())
+		{
+			Console_Print("VarlaReadFromFile: Failed to open file: %s", fullPath.c_str());
+			*result = 0;
+			return true;
+		}
+
+		// Create array and read lines
+		u32 arrayID = g_nextArrayID++;
+		OBSEArray& arr = g_arrayStorage[arrayID];
+
+		std::string line;
+		while (std::getline(file, line))
+		{
+			arr.lines.push_back(line);
+		}
+		file.close();
+
+		#if _DEBUG
+		Console_Print("VarlaReadFromFile: Read %d lines from '%s'", (int)arr.lines.size(), fileName);
+		#endif
+
+		// Return array ID
+		*result = arrayID;
+	}
+
+	return true;
+}
+
+// Parameter definitions for varla commands
+static ParamInfo kParams_VarlaWriteToFile[2] =
+{
+	{"filename", kParamType_String, 0},
+	{"content", kParamType_String, 0}
+};
+
+static ParamInfo kParams_VarlaReadFromFile[1] =
+{
+	{"filename", kParamType_String, 0}
+};
+
+// Command info structures for varla commands
+CommandInfo kCommandInfo_VarlaWriteToFile =
+{
+	"VarlaWriteToFile", "",
+	0,
+	"Write a string to a file (Varla module for Oblivion Remastered)",
+	0,
+	2, kParams_VarlaWriteToFile,
+	Cmd_VarlaWriteToFile_Execute
+};
+
+CommandInfo kCommandInfo_VarlaReadFromFile =
+{
+	"VarlaReadFromFile", "",
+	0,
+	"Read all lines from a file into an array (Varla module for Oblivion Remastered)",
+	0,
+	1, kParams_VarlaReadFromFile,
+	Cmd_VarlaReadFromFile_Execute
+};

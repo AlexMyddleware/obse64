@@ -118,6 +118,10 @@ void AddScriptCommands()
 	ADD(ReadFromLog);
 	ADD(UnregisterLog);
 
+	// Varla module commands (Oblivion Remastered)
+	ADD(VarlaWriteToFile);
+	ADD(VarlaReadFromFile);
+
 	// Array commands
 	ADD(ar_Size);
 	ADD(ar_Construct);
