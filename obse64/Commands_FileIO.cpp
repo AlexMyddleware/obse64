@@ -13,11 +13,11 @@
 struct LogFile {
 	std::string name;
 	std::string fullPath;
-	std::ofstream writeStream;
+	std::unique_ptr<std::ofstream> writeStream;
 	int mode; // 0 = read, 1 = write/append
 	bool isOpen;
 
-	LogFile() : mode(0), isOpen(false) {}
+	LogFile() : mode(0), isOpen(false), writeStream(nullptr) {}
 };
 
 // Global state for log management
@@ -65,10 +65,10 @@ bool Cmd_PrintC_Execute(COMMAND_ARGS)
 		for (auto& pair : g_registeredLogs)
 		{
 			LogFile& log = pair.second;
-			if (log.isOpen && log.mode == 1 && log.writeStream.is_open())
+			if (log.isOpen && log.mode == 1 && log.writeStream && log.writeStream->is_open())
 			{
-				log.writeStream << buffer << std::endl;
-				log.writeStream.flush();
+				*log.writeStream << buffer << std::endl;
+				log.writeStream->flush();
 				logsWritten++;
 			}
 		}
@@ -110,8 +110,8 @@ bool Cmd_RegisterLog_Execute(COMMAND_ARGS)
 		if (it != g_registeredLogs.end())
 		{
 			// Close existing log
-			if (it->second.writeStream.is_open())
-				it->second.writeStream.close();
+			if (it->second.writeStream && it->second.writeStream->is_open())
+				it->second.writeStream->close();
 			g_registeredLogs.erase(it);
 		}
 
@@ -125,8 +125,8 @@ bool Cmd_RegisterLog_Execute(COMMAND_ARGS)
 		if (mode == 1) // Write mode
 		{
 			// Open in append mode
-			log.writeStream.open(fullPath, std::ios::out | std::ios::app);
-			if (!log.writeStream.is_open())
+			log.writeStream = std::make_unique<std::ofstream>(fullPath, std::ios::out | std::ios::app);
+			if (!log.writeStream->is_open())
 			{
 				Console_Print("RegisterLog: Failed to open log file for writing: %s", fullPath.c_str());
 				log.isOpen = false;
@@ -216,11 +216,11 @@ bool Cmd_UnregisterLog_Execute(COMMAND_ARGS)
 		auto it = g_registeredLogs.find(logName);
 		if (it != g_registeredLogs.end())
 		{
-			if (it->second.writeStream.is_open())
+			if (it->second.writeStream && it->second.writeStream->is_open())
 			{
 				if (flush)
-					it->second.writeStream.flush();
-				it->second.writeStream.close();
+					it->second.writeStream->flush();
+				it->second.writeStream->close();
 			}
 			g_registeredLogs.erase(it);
 
