@@ -1,2 +1,3 @@
 EXPORTS
 StartOBSE64 @1
+AddScriptCommand @2

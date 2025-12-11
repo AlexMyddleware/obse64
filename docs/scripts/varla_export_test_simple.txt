@@ -1,0 +1,64 @@
+scn VarlaExportTestScript
+
+; Simplified Varla export script for testing
+; This version works with the current OBSE64 implementation
+; To use: Create a spell with Script Effect, attach this script
+
+float fVal
+short iVal
+
+Begin ScriptEffectStart
+    ; Export basic player data to varla-export.txt
+
+    VarlaWriteToFile "varla-export.txt" "=== Varla Export Test ==="
+    VarlaWriteToFile "varla-export.txt" "Player Basic Info"
+
+    ; Export level
+    set fVal to Player.GetLevel
+    VarlaWriteToFile "varla-export.txt" "Level"
+    ; Note: We can't format strings yet, so we write the raw value
+    ; In a full implementation, we'd use PrintC with formatting
+
+    ; Export attributes (writing labels)
+    VarlaWriteToFile "varla-export.txt" "Attributes"
+    VarlaWriteToFile "varla-export.txt" "Strength"
+    set fVal to Player.GetAV Strength
+    ; Value would go here - currently limited by string formatting
+
+    VarlaWriteToFile "varla-export.txt" "Intelligence"
+    set fVal to Player.GetAV Intelligence
+
+    VarlaWriteToFile "varla-export.txt" "Willpower"
+    set fVal to Player.GetAV Willpower
+
+    VarlaWriteToFile "varla-export.txt" "Endurance"
+    set fVal to Player.GetAV Endurance
+
+    VarlaWriteToFile "varla-export.txt" "Speed"
+    set fVal to Player.GetAV Speed
+
+    VarlaWriteToFile "varla-export.txt" "Agility"
+    set fVal to Player.GetAV Agility
+
+    VarlaWriteToFile "varla-export.txt" "Personality"
+    set fVal to Player.GetAV Personality
+
+    VarlaWriteToFile "varla-export.txt" "Luck"
+    set fVal to Player.GetAV Luck
+
+    ; Export skills
+    VarlaWriteToFile "varla-export.txt" "Skills"
+    VarlaWriteToFile "varla-export.txt" "Blade"
+    set fVal to Player.GetAV Blade
+
+    VarlaWriteToFile "varla-export.txt" "Blunt"
+    set fVal to Player.GetAV Blunt
+
+    VarlaWriteToFile "varla-export.txt" "Destruction"
+    set fVal to Player.GetAV Destruction
+
+    VarlaWriteToFile "varla-export.txt" "=== Export Complete ==="
+
+    ; Show message to player
+    Message "Varla export test complete! Check My Documents\\My Games\\Oblivion\\varla-export.txt"
+End

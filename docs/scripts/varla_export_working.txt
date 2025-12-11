@@ -1,0 +1,125 @@
+scn VarlaExportWorking
+
+; Working Varla export script using RegisterLog + PrintC
+; This version formats data properly like the original
+; To use: Create a spell with Script Effect, attach this script
+
+float fVal
+
+Begin ScriptEffectStart
+    ; Register the log file for writing
+    RegisterLog "varla-export" 1
+
+    ; Export header
+    PrintC "=== Varla Export ==="
+    PrintC "Player Info"
+
+    ; Export level
+    PrintC "Level"
+    set fVal to Player.GetLevel
+    PrintC "%g" fVal
+
+    ; Export attributes
+    PrintC "Attributes"
+
+    set fVal to Player.GetAV Strength
+    PrintC "Strength,%g" fVal
+
+    set fVal to Player.GetAV Intelligence
+    PrintC "Intelligence,%g" fVal
+
+    set fVal to Player.GetAV Willpower
+    PrintC "Willpower,%g" fVal
+
+    set fVal to Player.GetAV Endurance
+    PrintC "Endurance,%g" fVal
+
+    set fVal to Player.GetAV Speed
+    PrintC "Speed,%g" fVal
+
+    set fVal to Player.GetAV Agility
+    PrintC "Agility,%g" fVal
+
+    set fVal to Player.GetAV Personality
+    PrintC "Personality,%g" fVal
+
+    set fVal to Player.GetAV Luck
+    PrintC "Luck,%g" fVal
+
+    PrintC "Attributes END"
+
+    ; Export skills
+    PrintC "Skills"
+
+    set fVal to Player.GetAV Blade
+    PrintC "Blade,%g" fVal
+
+    set fVal to Player.GetAV Blunt
+    PrintC "Blunt,%g" fVal
+
+    set fVal to Player.GetAV Block
+    PrintC "Block,%g" fVal
+
+    set fVal to Player.GetAV Armorer
+    PrintC "Armorer,%g" fVal
+
+    set fVal to Player.GetAV HeavyArmor
+    PrintC "HeavyArmor,%g" fVal
+
+    set fVal to Player.GetAV Athletics
+    PrintC "Athletics,%g" fVal
+
+    set fVal to Player.GetAV HandToHand
+    PrintC "HandToHand,%g" fVal
+
+    set fVal to Player.GetAV Destruction
+    PrintC "Destruction,%g" fVal
+
+    set fVal to Player.GetAV Alteration
+    PrintC "Alteration,%g" fVal
+
+    set fVal to Player.GetAV Conjuration
+    PrintC "Conjuration,%g" fVal
+
+    set fVal to Player.GetAV Illusion
+    PrintC "Illusion,%g" fVal
+
+    set fVal to Player.GetAV Mysticism
+    PrintC "Mysticism,%g" fVal
+
+    set fVal to Player.GetAV Restoration
+    PrintC "Restoration,%g" fVal
+
+    set fVal to Player.GetAV Alchemy
+    PrintC "Alchemy,%g" fVal
+
+    set fVal to Player.GetAV Acrobatics
+    PrintC "Acrobatics,%g" fVal
+
+    set fVal to Player.GetAV LightArmor
+    PrintC "LightArmor,%g" fVal
+
+    set fVal to Player.GetAV Marksman
+    PrintC "Marksman,%g" fVal
+
+    set fVal to Player.GetAV Mercantile
+    PrintC "Mercantile,%g" fVal
+
+    set fVal to Player.GetAV Security
+    PrintC "Security,%g" fVal
+
+    set fVal to Player.GetAV Sneak
+    PrintC "Sneak,%g" fVal
+
+    set fVal to Player.GetAV Speechcraft
+    PrintC "Speechcraft,%g" fVal
+
+    PrintC "Skills END"
+    PrintC "=== Varla Export END ==="
+
+    ; Close the log file
+    UnregisterLog "varla-export" 0 0
+
+    ; Show message to player
+    Message "Varla export complete! Check My Documents\\My Games\\Oblivion\\varla-export.log"
+End

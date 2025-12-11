@@ -33,7 +33,7 @@ static std::string GetLogDirectory()
 	char path[MAX_PATH];
 	if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_PERSONAL, NULL, 0, path)))
 	{
-		std::string logPath = std::string(path) + "\\My Games\\Oblivion\\";
+		std::string logPath = std::string(path) + "\\My Games\\Oblivion Remastered\\";
 		CreateDirectoryA(logPath.c_str(), NULL);
 		return logPath;
 	}
@@ -61,6 +61,7 @@ bool Cmd_PrintC_Execute(COMMAND_ARGS)
 		Console_Print("%s", buffer);
 
 		// Write to all registered logs in write mode
+		int logsWritten = 0;
 		for (auto& pair : g_registeredLogs)
 		{
 			LogFile& log = pair.second;
@@ -68,7 +69,14 @@ bool Cmd_PrintC_Execute(COMMAND_ARGS)
 			{
 				log.writeStream << buffer << std::endl;
 				log.writeStream.flush();
+				logsWritten++;
 			}
+		}
+
+		// Debug: show how many logs were written to
+		if (logsWritten > 0)
+		{
+			Console_Print("[PrintC: wrote to %d log(s)]", logsWritten);
 		}
 	}
 
@@ -123,12 +131,12 @@ bool Cmd_RegisterLog_Execute(COMMAND_ARGS)
 				Console_Print("RegisterLog: Failed to open log file for writing: %s", fullPath.c_str());
 				log.isOpen = false;
 			}
+			else
+			{
+				Console_Print("RegisterLog: Registered '%s' at %s", logName, fullPath.c_str());
+			}
 		}
 		// For read mode, we'll open the file when ReadFromLog is called
-
-		#if _DEBUG
-		Console_Print("RegisterLog: Registered '%s' (mode %d) at %s", logName, mode, fullPath.c_str());
-		#endif
 	}
 
 	return true;

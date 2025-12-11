@@ -112,13 +112,11 @@ void AddScriptCommands()
 	ADD(GetEquipmentSlotType);
 	ADD(PrintToConsole);
 
-	// File I/O commands
+	// File I/O commands (Varla module)
 	ADD(PrintC);
 	ADD(RegisterLog);
 	ADD(ReadFromLog);
 	ADD(UnregisterLog);
-
-	// Varla module commands (Oblivion Remastered)
 	ADD(VarlaWriteToFile);
 	ADD(VarlaReadFromFile);
 

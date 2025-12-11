@@ -141,6 +141,7 @@ source_group(
 		Commands_Array.cpp
 		Commands_Array.h
 		ArrayTypes.h
+		VarlaPlugin.cpp
 )
 
 # ---- Create library ----
@@ -162,7 +163,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/configuration.cmake)
 set_target_properties(
 	${PROJECT_NAME}
 	PROPERTIES
-		OUTPUT_NAME "Varla"
+		OUTPUT_NAME "${PROJECT_NAME}_${RUNTIME_VERSION_MAJOR}_${RUNTIME_VERSION_MINOR}_${RUNTIME_VERSION_PATCH}"
 )
 
 target_compile_definitions(
