@@ -136,6 +136,11 @@ source_group(
 		Commands_Player.cpp
 		Commands_Math.cpp
 		Commands_MiscReference.cpp
+		Commands_FileIO.cpp
+		Commands_FileIO.h
+		Commands_Array.cpp
+		Commands_Array.h
+		ArrayTypes.h
 )
 
 # ---- Create library ----

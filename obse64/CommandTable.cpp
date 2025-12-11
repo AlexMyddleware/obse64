@@ -111,6 +111,17 @@ void AddScriptCommands()
 	ADD(IsKeyPressed);
 	ADD(GetEquipmentSlotType);
 	ADD(PrintToConsole);
+
+	// File I/O commands
+	ADD(PrintC);
+	ADD(RegisterLog);
+	ADD(ReadFromLog);
+	ADD(UnregisterLog);
+
+	// Array commands
+	ADD(ar_Size);
+	ADD(ar_Construct);
+
 	ADD_RET(GetActiveSpell, kRetnType_Form);
 	ADD_RET(SetActiveSpell, kRetnType_Form);
 	ADD(SquareRoot);
