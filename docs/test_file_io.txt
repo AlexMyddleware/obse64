@@ -1,0 +1,40 @@
+scn TestFileIOScript
+
+; Simple test script to verify file I/O functionality
+; This tests the PrintC, RegisterLog, and UnregisterLog commands
+
+float testValue
+string_var testString
+
+Begin ScriptEffectStart
+    ; Register a log file for writing
+    PrintC "=== File I/O Test Start ==="
+    RegisterLog "fileio-test" 1
+
+    ; Test basic printing
+    PrintC "Test: Basic String Output"
+
+    ; Test formatted output with numbers
+    let testValue := 42.5
+    PrintC "Test: Number value = %g" testValue
+
+    ; Test multiple values
+    PrintC "Test: Multiple values %g %g %g" 1.0 2.0 3.0
+
+    ; Test string formatting
+    PrintC "Player info"
+    PrintC "level"
+    let testValue := Player.GetLevel
+    PrintC "%g" testValue
+
+    PrintC "Player attributes"
+    let testValue := Player.GetAV Strength
+    PrintC "Strength,%g" testValue
+    let testValue := Player.GetAV Intelligence
+    PrintC "Intelligence,%g" testValue
+
+    ; Close the log file
+    UnregisterLog "fileio-test" 0 0
+    PrintC "=== File I/O Test Complete ==="
+    PrintC "Check: My Documents\\My Games\\Oblivion\\fileio-test.log"
+End

@@ -1,0 +1,348 @@
+scn PDXMinExportSpell
+
+; --- variables ---
+ref rPlayer
+ref rRace
+ref rClass
+ref rSign
+ref baseForm
+
+string_var sName
+string_var sRace
+string_var sClass
+string_var sSign
+float fVal
+ref rItem
+string_var sItemName
+short iCount
+
+; Spell variables
+ref rSpell
+string_var sSpellName
+short numSpells
+short spellIndex
+short miscStatsIndex
+short miscStatsMax
+short currentMiscStat
+short cost
+short numEffects
+short spellEffectsIterator
+short magnitude
+short duration
+short area
+
+;statistics
+short fame
+short infamy
+short bounty
+
+string_var effectName
+
+;factions
+short numberfactions
+short factioniterator
+ref factionReference
+short factionRankNumber
+string_var factionRankName
+
+;quests
+array_var aCompletedQuests
+short iQuestIndex
+short iTotalQuests
+ref rQuestRef
+string_var sQuestEditorID
+
+;Active quest
+ref activeQuest
+
+;Current quests
+array_var currentQuests
+array_var currentQuestIterator
+ref currentQuest
+short questStage
+
+Begin ScriptEffectStart
+    let rPlayer := GetSelf
+
+    ; resolve forms
+    let rRace  := rPlayer.GetRace
+    let rClass := rPlayer.GetClass
+    let rSign  := GetPlayerBirthsign
+
+    ; fetch names into strings
+    let sName  := GetName rPlayer
+    let sRace  := GetName rRace
+    let sClass := GetName rClass
+	let sSign  := GetName rSign
+	let fVal := rPlayer.GetLevel
+
+    ; ---- basics ----
+    PrintC "=== Varla Export ==="
+    PrintC "Player info"
+	PrintC "name"
+	PrintC "%z" sName
+	PrintC "race"
+	PrintC "%z" sRace
+	PrintC "class"
+	PrintC "%z" sClass
+	PrintC "birthsign"
+	PrintC "%z" sSign
+	PrintC "level"
+	PrintC "%g" fVal
+
+	PrintC "Player info END"
+
+	; ---- attributes ----
+    PrintC "Attributes"
+
+	let fVal := rPlayer.GetAV Strength
+	PrintC "Strength,%g" fVal
+	let fVal := rPlayer.GetAV Willpower
+	PrintC "Willpower,%g" fVal
+	let fVal := rPlayer.GetAV Intelligence
+	PrintC "Intelligence,%g" fVal
+	let fVal := rPlayer.GetAV Endurance
+	PrintC "Endurance,%g" fVal
+	let fVal := rPlayer.GetAV Speed
+	PrintC "Speed,%g" fVal
+	let fVal := rPlayer.GetAV Agility
+	PrintC "Agility,%g" fVal
+	let fVal := rPlayer.GetAV Personality
+	PrintC "Personality,%g" fVal
+	let fVal := rPlayer.GetAV Luck
+	PrintC "Luck,%g" fVal
+
+	PrintC "Attributes END"
+
+    ; ---- skills ----
+    PrintC "Skills"
+	
+    ; Combat
+    let fVal := rPlayer.GetAV Armorer
+    PrintC "Armorer,%g" fVal
+    let fVal := rPlayer.GetAV Athletics
+    PrintC "Athletics,%g" fVal
+    let fVal := rPlayer.GetAV Blade
+    PrintC "Blade,%g" fVal
+    let fVal := rPlayer.GetAV Block
+    PrintC "Block,%g" fVal
+    let fVal := rPlayer.GetAV Blunt
+    PrintC "Blunt,%g" fVal
+    let fVal := rPlayer.GetAV HandToHand
+    PrintC "HandToHand,%g" fVal
+    let fVal := rPlayer.GetAV HeavyArmor
+    PrintC "HeavyArmor,%g" fVal
+
+    ; Magic
+    let fVal := rPlayer.GetAV Alchemy
+    PrintC "Alchemy,%g" fVal
+    let fVal := rPlayer.GetAV Alteration
+    PrintC "Alteration,%g" fVal
+    let fVal := rPlayer.GetAV Conjuration
+    PrintC "Conjuration,%g" fVal
+    let fVal := rPlayer.GetAV Destruction
+    PrintC "Destruction,%g" fVal
+    let fVal := rPlayer.GetAV Illusion
+    PrintC "Illusion,%g" fVal
+    let fVal := rPlayer.GetAV Mysticism
+    PrintC "Mysticism,%g" fVal
+    let fVal := rPlayer.GetAV Restoration
+    PrintC "Restoration,%g" fVal
+
+    ; Stealth
+    let fVal := rPlayer.GetAV Acrobatics
+    PrintC "Acrobatics,%g" fVal
+    let fVal := rPlayer.GetAV LightArmor
+    PrintC "LightArmor,%g" fVal
+    let fVal := rPlayer.GetAV Marksman
+    PrintC "Marksman,%g" fVal
+    let fVal := rPlayer.GetAV Mercantile
+    PrintC "Mercantile,%g" fVal
+    let fVal := rPlayer.GetAV Security
+    PrintC "Security,%g" fVal
+    let fVal := rPlayer.GetAV Sneak
+    PrintC "Sneak,%g" fVal
+    let fVal := rPlayer.GetAV Speechcraft
+    PrintC "Speechcraft,%g" fVal
+
+	PrintC "Skills END"
+
+    ; ---- spells ----
+    PrintC "Spells"
+
+	let numSpells := rPlayer.GetSpellCount
+	PrintC "this is the total number of spells"
+	PrintC "%g" numSpells
+	let spellIndex := 0
+	SaveIP 15
+        if spellIndex < numSpells
+            set rSpell to rPlayer.GetNthSpell spellIndex
+
+            if rSpell
+				let sSpellName := GetName rSpell
+				PrintC "This is the spell id"
+				PrintC "%08X" rSpell
+				PrintC "This is the spell name"
+				PrintC "%z" sSpellName
+
+
+				PrintC "section for the spell properties"
+				PrintC "this is the magicka cost"
+				let cost := GetSpellMagickaCost rSpell
+				PrintC "%g" cost
+
+				; Get number of effects
+  				let numEffects := GetMagicItemEffectCount rSpell
+				let spellEffectsIterator := 0
+				SaveIp 18
+				if spellEffectsIterator < numEffects
+					;let effectCode := GetNthEffectItemCode rSpell spellEffectsIterator
+					;PrintC "This is the effect code"
+					;PrintC "%08X" effectCode
+
+					;let effectData := GetNthEffectItem rSpell spellEffectsIterator
+					;let effectCode := effectData["effectCode"]
+				    ;PrintC "Effect Code: %i" effectCode
+					let effectName := GetNthEffectItemName rSpell spellEffectsIterator
+					PrintC "Effect Name bibi: %z" effectName
+				
+					let magnitude := GetNthEffectItemMagnitude rSpell spellEffectsIterator
+					PrintC "This is the magnitude"
+					PrintC "%g" magnitude
+					let duration := GetNthEffectItemDuration rSpell spellEffectsIterator
+					PrintC "This is the duration"
+					PrintC "%g" duration
+					let area := GetNthEffectItemArea rSpell spellEffectsIterator
+					PrintC "This is the area"
+					PrintC "%g" area
+
+					
+				
+					
+					set spellEffectsIterator to spellEffectsIterator + 1
+				endif
+        	endif
+
+		set spellIndex to spellIndex + 1
+		RestoreIP 15
+        endif
+
+	PrintC "Spells END"
+
+    ; ---- inventory ----
+    PrintC "Inventory"
+
+    foreach rItem <- rPlayer
+        ; Step 1: Get the stack count from the iterator
+        ;let iCount := rItem.GetRefCount
+
+		set baseForm to rItem.GetBaseObject
+
+		if baseForm
+                  ; Try count again with explicit re-check
+                  let iCount := rPlayer.GetItemCount baseForm
+				  PrintC "COUNT - Count attempt: %g" iCount
+				  let sItemName := GetName baseForm
+				  PrintC "NAME - name of the item: %z" sItemName
+				  PrintC "ITEMID - id of the item: %08X" baseForm
+          endif
+
+	loop
+
+	PrintC "now we move on to the player misc stats"
+	;misc stats
+	let miscStatsMax := 33
+	let miscStatsIndex := 0
+	PrintC "the variables have been correctly initialized"
+	SaveIp 17
+		if miscStatsIndex < miscStatsMax
+			let currentMiscStat := GetPCMiscStat miscStatsIndex
+			PrintC "PCMiscStat index"
+			PrintC "%g" miscStatsIndex
+			PrintC "PCMiscStat value"
+			PrintC "%g" currentMiscStat
+			set miscStatsIndex to miscStatsIndex + 1
+			RestoreIP 17
+		endif
+
+	PrintC "Inventory END"
+	
+	PrintC "Fame, Infamy, Bounty"
+    let fame := GetPCFame
+    PrintC "this is the fame"
+    PrintC "%g" fame
+    let infamy := GetPCInfamy
+    PrintC "this is the infamy"
+    PrintC "%g" infamy
+    let bounty := Player.GetCrimeGold
+    PrintC "this is the bounty"
+	PrintC "%g" bounty
+
+	PrintC "Fame, Infamy, Bounty END"
+	
+	PrintC "Factions"
+
+	let numberfactions := Player.GetNumFactions
+	let factioniterator := 0
+	while factioniterator < numberfactions
+		let factionReference := Player.GetNthFaction factioniterator
+		PrintC "FormID: %08X" factionReference
+	    let factionRankNumber := Player.GetFactionRank factionReference
+	    if factionRankNumber >= 0
+	        PrintC "%n, rank %g" factionReference factionRankNumber
+	        let factionRankName := sv_Construct "?"
+	        let factionRankName := GetNthFactionRankName factionReference factionRankNumber 0
+	        PrintC "Title: %z" factionRankName
+	    endif
+	    set factioniterator to factioniterator + 1
+	loop
+
+	
+	PrintC "Factions END"
+
+	PrintC "Completed Quests"
+	let aCompletedQuests := GetCompletedQuests
+	let iTotalQuests := ar_Size aCompletedQuests
+	set iQuestIndex to 0
+
+	while iQuestIndex < iTotalQuests
+	    let rQuestRef := aCompletedQuests[iQuestIndex]
+	    let sQuestEditorID := GetEditorID rQuestRef
+	    PrintC "Completed Quest: %z" sQuestEditorID
+	    set iQuestIndex to  iQuestIndex + 1
+	loop
+	PrintC "Completed Quests END"
+
+	PrintC "Active Quest"
+	let activeQuest := GetActiveQuest
+	let sQuestEditorID := GetEditorID activeQuest
+	PrintC "This is the currently active quest"
+	PrintC "%08X" activeQuest
+	PrintC "Active Quest Editor ID: %z" sQuestEditorID
+	PrintC "Active Quest END"
+
+	PrintC "Current Quests"
+
+	let currentQuests := GetCurrentQuests
+	;let currentQuestIterator := ar_construct array
+	ForEach currentQuestIterator <- currentQuests
+		let currentQuest := currentQuestIterator["value"]
+		let questStage := GetStage currentQuest
+		if (questStage > 0)
+        	let sQuestEditorID := GetEditorID currentQuest
+        	;PrintC "%08X" currentQuest
+        	PrintC "Current Quest Editor ID: %z" sQuestEditorID
+    	endif
+	loop
+	PrintC "Current Quests END"
+	
+    PrintC "=== PDX Minimal Export END ==="
+End
+
+
+
+
+
+
+
+	
