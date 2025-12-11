@@ -61,15 +61,23 @@ bool Cmd_PrintC_Execute(COMMAND_ARGS)
 		Console_Print("%s", buffer);
 
 		// Write to all registered logs in write mode
+		Console_Print("[DEBUG: PrintC checking %d registered log(s)]", (int)g_registeredLogs.size());
+
 		int logsWritten = 0;
 		for (auto& pair : g_registeredLogs)
 		{
 			LogFile& log = pair.second;
+			Console_Print("[DEBUG: Log '%s' - isOpen=%d, mode=%d, hasStream=%d, streamOpen=%d]",
+				log.name.c_str(), log.isOpen, log.mode,
+				(log.writeStream != nullptr),
+				(log.writeStream && log.writeStream->is_open()));
+
 			if (log.isOpen && log.mode == 1 && log.writeStream && log.writeStream->is_open())
 			{
 				*log.writeStream << buffer << std::endl;
 				log.writeStream->flush();
 				logsWritten++;
+				Console_Print("[DEBUG: Successfully wrote to log '%s']", log.name.c_str());
 			}
 		}
 
@@ -77,6 +85,10 @@ bool Cmd_PrintC_Execute(COMMAND_ARGS)
 		if (logsWritten > 0)
 		{
 			Console_Print("[PrintC: wrote to %d log(s)]", logsWritten);
+		}
+		else
+		{
+			Console_Print("[PrintC: wrote to 0 logs - check debug output above]");
 		}
 	}
 
