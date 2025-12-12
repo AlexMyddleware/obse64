@@ -148,3 +148,8 @@ TESFullName * TESForm::GetFullName()
 
 	return fullName;
 }
+
+UInt8 TESForm::GetModIndex()
+{
+	return (refID >> 24);
+}

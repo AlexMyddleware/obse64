@@ -69,6 +69,7 @@ source_group(
 		GameForms.h
 		GameObjects.cpp
 		GameObjects.h
+		Script.h
 )
 
 source_group(

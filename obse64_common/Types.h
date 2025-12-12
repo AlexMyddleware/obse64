@@ -19,6 +19,16 @@ typedef u16	unk16;
 typedef u32	unk32;
 typedef u64	unk64;
 
+// Legacy OBSE type names for compatibility
+typedef u8		UInt8;
+typedef u16		UInt16;
+typedef u32		UInt32;
+typedef u64		UInt64;
+typedef s8		SInt8;
+typedef s16		SInt16;
+typedef s32		SInt32;
+typedef s64		SInt64;
+
 inline u16 swap16(u16 a)
 {
 	return _byteswap_ushort(a);

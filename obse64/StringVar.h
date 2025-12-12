@@ -2,6 +2,7 @@
 
 #include "VarMap.h"
 #include "GameScript.h"
+#include "Script.h"
 #include <string>
 #include <memory>
 #include <tuple>
@@ -61,7 +62,6 @@ extern StringVarMap g_StringMap;
 // Forward declarations
 struct ParamInfo;
 class TESObjectREFR;
-class Script;
 struct ScriptEventList;
 
 bool AssignToStringVar(ParamInfo * paramInfo, void * arg1, TESObjectREFR * thisObj, TESObjectREFR* contObj, Script * scriptObj, ScriptEventList * eventList, double * result, UInt32 * opcodeOffsetPtr, const char* newValue);

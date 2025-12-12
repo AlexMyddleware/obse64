@@ -2,6 +2,7 @@
 #include "GameConsole.h"
 #include "GameForms.h"
 #include "GameScript.h"
+#include <windows.h>
 #include <algorithm>
 #include <cctype>
 

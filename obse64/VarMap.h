@@ -1,5 +1,6 @@
 #pragma once
 
+#include "obse64_common/Types.h"
 #include <map>
 #include <set>
 

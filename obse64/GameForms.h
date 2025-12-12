@@ -256,6 +256,7 @@ public:
 	void	* unk28;	// 28 new in altar
 
 	TESFullName * GetFullName();
+	UInt8 GetModIndex();
 };
 
 static_assert(sizeof(TESForm) == 0x30);
