@@ -281,7 +281,7 @@ static ParamInfo kParams_UnregisterLog[3] =
 // Command info structures
 CommandInfo kCommandInfo_PrintC =
 {
-	"PrintC", "printc",
+	"LogPrint", "logprint",
 	0,
 	"Print formatted string to console and log file",
 	0,
