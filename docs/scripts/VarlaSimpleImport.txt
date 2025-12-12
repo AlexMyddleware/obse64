@@ -1,0 +1,23 @@
+scn VarlaSimpleImport
+
+; Simplified Varla Import Script for OBSE64
+; Works with current OBSE64 features (no string_var, no loops)
+; Imports: Level, Attributes, Skills, Fame/Infamy, Bounty
+;
+; To use: Attach to a spell effect and cast on Player
+;
+; NOTE: This requires VarlaReadFromFile and array indexing to work properly
+; For now, you'll need to manually set values or wait for full OBSE implementation
+
+Begin ScriptEffectStart
+	Message "Varla Import: Not yet implemented"
+	Message "Waiting for array indexing support"
+	Message "Use the export script for now"
+
+	; TODO: Once we have array indexing working:
+	; 1. RegisterLog "varla-export" 0
+	; 2. let dataArray := ReadFromLog "varla-export"
+	; 3. Parse each line and set player values
+	; 4. Player.SetAV Strength [value]
+	; 5. etc.
+End

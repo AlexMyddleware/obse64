@@ -142,6 +142,9 @@ source_group(
 		Commands_Array.h
 		ArrayTypes.h
 		VarlaPlugin.cpp
+		StringVar.cpp
+		StringVar.h
+		VarMap.h
 )
 
 # ---- Create library ----

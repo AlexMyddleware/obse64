@@ -1,0 +1,155 @@
+scn VarlaSimpleExport
+
+; Simplified Varla Export Script for OBSE64
+; Works with current OBSE64 features (no string_var, no loops)
+; Exports: Level, Attributes, Skills, Fame/Infamy, Bounty
+;
+; To use: Attach to a spell effect and cast on Player
+
+float fVal
+short sVal
+
+Begin ScriptEffectStart
+	RegisterLog "varla-export" 1
+
+	LogPrint "=== VARLA CHARACTER EXPORT ==="
+	LogPrint "Version: Simple 1.0"
+	LogPrint ""
+
+	; ===== LEVEL =====
+	LogPrint "[LEVEL]"
+	set fVal to Player.GetLevel
+	LogPrint "Level,%g" fVal
+	LogPrint ""
+
+	; ===== ATTRIBUTES =====
+	LogPrint "[ATTRIBUTES]"
+
+	set fVal to Player.GetAV Strength
+	LogPrint "Strength,%g" fVal
+
+	set fVal to Player.GetAV Intelligence
+	LogPrint "Intelligence,%g" fVal
+
+	set fVal to Player.GetAV Willpower
+	LogPrint "Willpower,%g" fVal
+
+	set fVal to Player.GetAV Agility
+	LogPrint "Agility,%g" fVal
+
+	set fVal to Player.GetAV Speed
+	LogPrint "Speed,%g" fVal
+
+	set fVal to Player.GetAV Endurance
+	LogPrint "Endurance,%g" fVal
+
+	set fVal to Player.GetAV Personality
+	LogPrint "Personality,%g" fVal
+
+	set fVal to Player.GetAV Luck
+	LogPrint "Luck,%g" fVal
+
+	LogPrint ""
+
+	; ===== SKILLS =====
+	LogPrint "[SKILLS]"
+
+	; Combat Skills
+	set fVal to Player.GetAV Blade
+	LogPrint "Blade,%g" fVal
+
+	set fVal to Player.GetAV Blunt
+	LogPrint "Blunt,%g" fVal
+
+	set fVal to Player.GetAV HandToHand
+	LogPrint "HandToHand,%g" fVal
+
+	set fVal to Player.GetAV Armorer
+	LogPrint "Armorer,%g" fVal
+
+	set fVal to Player.GetAV Block
+	LogPrint "Block,%g" fVal
+
+	set fVal to Player.GetAV HeavyArmor
+	LogPrint "HeavyArmor,%g" fVal
+
+	; Magic Skills
+	set fVal to Player.GetAV Destruction
+	LogPrint "Destruction,%g" fVal
+
+	set fVal to Player.GetAV Alteration
+	LogPrint "Alteration,%g" fVal
+
+	set fVal to Player.GetAV Illusion
+	LogPrint "Illusion,%g" fVal
+
+	set fVal to Player.GetAV Conjuration
+	LogPrint "Conjuration,%g" fVal
+
+	set fVal to Player.GetAV Mysticism
+	LogPrint "Mysticism,%g" fVal
+
+	set fVal to Player.GetAV Restoration
+	LogPrint "Restoration,%g" fVal
+
+	; Stealth Skills
+	set fVal to Player.GetAV Sneak
+	LogPrint "Sneak,%g" fVal
+
+	set fVal to Player.GetAV Security
+	LogPrint "Security,%g" fVal
+
+	set fVal to Player.GetAV LightArmor
+	LogPrint "LightArmor,%g" fVal
+
+	set fVal to Player.GetAV Marksman
+	LogPrint "Marksman,%g" fVal
+
+	set fVal to Player.GetAV Acrobatics
+	LogPrint "Acrobatics,%g" fVal
+
+	set fVal to Player.GetAV Athletics
+	LogPrint "Athletics,%g" fVal
+
+	; Other Skills
+	set fVal to Player.GetAV Alchemy
+	LogPrint "Alchemy,%g" fVal
+
+	set fVal to Player.GetAV Speechcraft
+	LogPrint "Speechcraft,%g" fVal
+
+	set fVal to Player.GetAV Mercantile
+	LogPrint "Mercantile,%g" fVal
+
+	LogPrint ""
+
+	; ===== STATS =====
+	LogPrint "[STATS]"
+
+	set fVal to Player.GetAV Health
+	LogPrint "Health,%g" fVal
+
+	set fVal to Player.GetAV Magicka
+	LogPrint "Magicka,%g" fVal
+
+	set fVal to Player.GetAV Fatigue
+	LogPrint "Fatigue,%g" fVal
+
+	set fVal to Player.GetAV Fame
+	LogPrint "Fame,%g" fVal
+
+	set fVal to Player.GetAV Infamy
+	LogPrint "Infamy,%g" fVal
+
+	set fVal to Player.GetCrimeGold
+	LogPrint "Bounty,%g" fVal
+
+	LogPrint ""
+
+	; ===== END =====
+	LogPrint "=== EXPORT COMPLETE ==="
+
+	UnregisterLog "varla-export" 0 0
+
+	Message "Character exported to varla-export.log"
+End
