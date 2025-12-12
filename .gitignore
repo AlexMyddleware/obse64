@@ -39,3 +39,4 @@ build/*
 out/*
 CMakeSettings.json
 obse64_update
+/old-obse
